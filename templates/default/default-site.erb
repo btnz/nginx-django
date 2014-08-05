@@ -1,0 +1,35 @@
+upstream <%= @application %> {
+  server unix:<%= @deploy_data[:deploy_to]%>/gunicorn.sock fail_timeout=0;
+}
+
+server {
+  listen   80;
+  server_name  <%= @deploy_data[:domains].join(" ") %> <%= node[:hostname] %>;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy_data[:domains].first %>.access.log;
+
+  location /static/ {
+    alias   <%= @deploy_data[:deploy_to] %>/static/;
+  }
+
+  location / {
+    proxy_pass http://<%= @application %>;
+  }
+  
+  # Block all svn access
+  if ($request_uri ~* ^.*\.svn.*$) {
+     return 404;
+  }
+  
+  # Block all git access
+  if ($request_uri ~* ^.*\.git.*$) {
+     return 404;
+  }
+  
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+  
+}

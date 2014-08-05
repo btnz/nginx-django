@@ -1,0 +1,42 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          gunicorn_<%=@app_name %>
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts a gunicorn environment
+# Description: Starts gunicorn using start-stop-daemon
+### END INIT INFO
+
+APP_DIR=<%=@app_dir %>
+CONF=$APP_DIR/gunicorn.py
+pidfile=$APP_DIR/gunicorn.pid
+
+case "$1" in
+  start)
+    .  $APP_DIR/shared/env/bin/activate
+    cd $APP_DIR/current/
+    $APP_DIR/shared/env/bin/gunicorn --pid $pidfile -c $CONF --daemon <%=@app_name%>.wsgi:application
+    ;;
+  restart|force-reload|reload)
+	# nothing to do
+    :
+    ;;
+  stop)
+    if [ -f $APP_DIR/gunicorn.pid ]; then
+      echo "Killing Gunicorn"
+      kill $(cat $APP_DIR/gunicorn.pid)
+    fi
+    ;;
+  status)
+    exit 4
+    ;;
+  *)
+    N=/etc/init.d/$NAME
+    echo "Usage: $N {start|stop|restart|force-reload|reload}"
+    exit 2
+    ;;
+esac
+
+exit 0
