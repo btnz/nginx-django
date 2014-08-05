@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "python"
+include_recipe "python-setup"
 
 node[:deploy].each do | application, deploy|
   virtualenv_path = node[:virtualenv_path]
