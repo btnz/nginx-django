@@ -1,6 +1,5 @@
 define :python_base_setup do
   deploy = params[:deploy_data]
-  application = params[:app_name]
 
   include_recipe "python::default"
 
@@ -11,6 +10,11 @@ define :python_base_setup do
       version ver if ver && ver.length > 0
     end
   end
+end
+
+define :virtual_env_configure do
+  deploy = params[:deploy_data]
+  application = params[:app_name]
 
   directory "#{deploy[:deploy_to]}/shared" do
     group deploy[:group]
