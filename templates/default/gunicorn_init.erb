@@ -13,21 +13,29 @@ APP_DIR=<%=@app_dir %>
 CONF=$APP_DIR/gunicorn.py
 pidfile=$APP_DIR/gunicorn.pid
 
+start() {
+  .  $APP_DIR/shared/env/bin/activate
+  cd $APP_DIR/current/
+  $APP_DIR/shared/env/bin/gunicorn --pid $pidfile -c $CONF --daemon <%=@app_name%>.wsgi:application
+}
+
+stop() {
+  if [ -f $APP_DIR/gunicorn.pid ]; then
+    echo "Killing Gunicorn"
+    kill $(cat $APP_DIR/gunicorn.pid)
+  fi
+}
+
 case "$1" in
   start)
-    .  $APP_DIR/shared/env/bin/activate
-    cd $APP_DIR/current/
-    $APP_DIR/shared/env/bin/gunicorn --pid $pidfile -c $CONF --daemon <%=@app_name%>.wsgi:application
+    start()
     ;;
   restart|force-reload|reload)
 	# nothing to do
-    :
+    stop() ; start()
     ;;
   stop)
-    if [ -f $APP_DIR/gunicorn.pid ]; then
-      echo "Killing Gunicorn"
-      kill $(cat $APP_DIR/gunicorn.pid)
-    fi
+    stop()
     ;;
   status)
     exit 4
