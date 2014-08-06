@@ -12,15 +12,17 @@ include_recipe "nginx-django::python-setup"
 node[:deploy].each do | application, deploy|
   virtualenv_path = node[:virtualenv_path]
   app_dir = ::File.join(deploy[:deploy_to], "current", application)
-  File.open("#{app_dir}/requirements.txt") do | file_handle |
-    file_handle.each_line do | line |
-      package, ver = line.split("==")
-      python_pip package do
-        version ver if ver && ver.length > 0
-        virtualenv virtualenv_path
-        user deploy[:user]
-        group deploy[:group]
-        action :install
+  if ::File.exists?(requirements_file)
+    File.open("#{app_dir}/requirements.txt") do | file_handle |
+      file_handle.each_line do | line |
+        package, ver = line.split("==")
+        python_pip package do
+          version ver if ver && ver.length > 0
+          virtualenv virtualenv_path
+          user deploy[:user]
+          group deploy[:group]
+          action :install
+        end
       end
     end
   end

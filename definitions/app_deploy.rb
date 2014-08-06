@@ -28,7 +28,6 @@ define :virtualenv_setup do
 
   virtualenv_path = ::File.join(deploy[:deploy_to], "shared", "env")
   requirements_file = ::File.join(deploy[:deploy_to], "current", "requirements.txt")
-  Chef::Log.debug("ReqFile: " + requirements_file)
   if ::File.exists?(requirements_file)
     File.open(requirements_file) do | file_handle |
       file_handle.each_line do | line |
