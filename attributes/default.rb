@@ -18,3 +18,5 @@ default["deploy_django"]["database"]["username"] = nil
 default["deploy_django"]["database"]["password"] = nil
 default["deploy_django"]["settings"] = {}
 
+default["social_auth"]["google_plus_key"] = nil
+default["social_auth"]["google_plus_secret"] = nil
