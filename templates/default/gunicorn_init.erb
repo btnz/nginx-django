@@ -28,14 +28,14 @@ stop() {
 
 case "$1" in
   start)
-    start()
+    start
     ;;
   restart|force-reload|reload)
-	# nothing to do
-    stop() ; start()
+    stop
+    start
     ;;
   stop)
-    stop()
+    stop
     ;;
   status)
     exit 4
