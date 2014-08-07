@@ -11,7 +11,7 @@ include_recipe "nginx-django::python-setup"
 
 node[:deploy].each do | application, deploy|
   virtualenv_path = node[:virtualenv_path]
-  app_dir = ::File.join(deploy[:deploy_to], "current", application)
+  app_dir = ::File.join(deploy[:deploy_to], "current")
   requirements_file = "#{app_dir}/requirements.txt"
   if ::File.exists?(requirements_file)
     File.open(requirements_file) do | file_handle |
@@ -26,5 +26,7 @@ node[:deploy].each do | application, deploy|
         end
       end
     end
+  else
+    Chef::Log.debug(requirements_file + " not found, skipping virtualenv")
   end
 end
