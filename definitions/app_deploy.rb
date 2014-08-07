@@ -14,7 +14,7 @@ define :app_configure do
       mode 0640
       variables Hash.new
       variables.update deploy
-      variables.update :django_database => node[:deploy][application]["django_database"] || node["deploy_django"]["database"]
+      variables.update :django_database => node[:deploy][application]["database"] || node["deploy_django"]["database"]
       variables.update :django_settings => node[:deploy][application]["django_settings"] || node["deploy_django"]["settings"]
       variables.update :social_auth => node[:deploy][application]["social_auth"] || node["social_auth"]
     end
