@@ -32,8 +32,5 @@ node[:deploy].each do | application, deploy|
     action :create
   end
 
-  service "gunicorn_" + application do
-    action [:enable, :start ]
-  end
 end
 
