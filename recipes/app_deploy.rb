@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'deploy'
+include_recipe 'deploy::default'
 
 node[:deploy].each do | application, deploy|
   opsworks_deploy_dir do
