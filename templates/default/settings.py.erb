@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     '<%=@application%>',
     'social.apps.django_app.default',
     'south',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,8 +99,36 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_PLUS_KEY = '<%= @social_auth["google_plus_key"] %>'
 SOCIAL_AUTH_GOOGLE_PLUS_SECRET = '<%= @social_auth["google_plus_secret"] %>'
 
+LOGIN_URL = '/login/'
+SOCIAL_AUTH_USER_MODEL = 'snaginator.SnaginatorUser'
+SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',  # <-- this one does the trick
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details'
+)
 
-#AUTH_USER_MODEL = 'snaginator.CustomUser'
+AUTH_USER_MODEL = 'snaginator.SnaginatorUser'
+
+REST_FRAMEWORK = {
+  'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+  'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+  ),
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework.authentication.BasicAuthentication',
+      'rest_framework.authentication.SessionAuthentication',
+  )
+}
+
 
 LOGIN_URL = '/login/'
 
@@ -121,3 +150,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '<%= @deploy_data[:deploy_to] %>/current/<%@application%>/static'
