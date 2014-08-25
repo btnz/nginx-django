@@ -13,6 +13,7 @@ server {
 
   location / {
     proxy_pass http://<%= @application %>;
+    proxy_set_header Host $http_host;
   }
   
   # Block all svn access

@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@j@%(pownd1hh(tegu0w4ck53=c39x@4(*1k08__ltkvtk$9-!'
+SECRET_KEY = '<%=@django_settings["secret_key"]%>'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = <%= @django_settings["debug"] ? "True" : "False" %>
@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     '<%=@application%>',
-    'social.apps.django_app.default',
+    'provider',
+    'provider.oauth2',
     'south',
     'rest_framework',
 )
@@ -82,38 +83,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 #   'django.core.context_processors.static',
 #   'django.core.context_processors.tz',
 #   'django.contrib.messages.context_processors.messages',
-   'social.apps.django_app.context_processors.backends',
-   'social.apps.django_app.context_processors.login_redirect',
 )
 
-
-AUTHENTICATION_BACKENDS = (
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GooglePlusAuth',
-    'social.backends.facebook.FacebookAppOAuth2',
-    'social.backends.facebook.FacebookOAuth2',
-    'social.backends.email.EmailAuth',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-SOCIAL_AUTH_GOOGLE_PLUS_KEY = '<%= @social_auth["google_plus_key"] %>'
-SOCIAL_AUTH_GOOGLE_PLUS_SECRET = '<%= @social_auth["google_plus_secret"] %>'
 
 LOGIN_URL = '/login/'
-SOCIAL_AUTH_USER_MODEL = 'snaginator.SnaginatorUser'
-SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.social_auth.associate_by_email',  # <-- this one does the trick
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
-)
+LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'snaginator.SnaginatorUser'
 
@@ -128,9 +102,6 @@ REST_FRAMEWORK = {
       'rest_framework.authentication.SessionAuthentication',
   )
 }
-
-
-LOGIN_URL = '/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
