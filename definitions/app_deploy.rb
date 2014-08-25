@@ -6,8 +6,7 @@ define :app_configure do
   deploy = node[:deploy][application]
 
   if deploy[:deploy_to] && (node[:deploy][application]["initially_deployed"] || ::File.exist?(deploy[:deploy_to]))
-    django_settings = ::File.join(deploy[:deploy_to], 'current', 'project1', 'settings.py')
-    # need to rename application to match Django django_settings = ::File.join(deploy[:deploy_to], 'current', application, 'settings.py')
+    django_settings = ::File.join(deploy[:deploy_to], 'current', application, 'settings.py')
     template django_settings do
       source "settings.py.erb"
       owner deploy[:user]
