@@ -10,7 +10,7 @@
 #include_recipe "nginx::default"
 
 service "nginx" do
-  supports :status => true, restart => true, reload => true
+  supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
 end
 
