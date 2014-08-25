@@ -17,13 +17,13 @@ define :virtualenv_configure do
   application = params[:app_name]
   virtualenv_path = params[:virtualenv_path]
 
-#  directory "#{deploy[:deploy_to]}/shared" do
-#    group deploy[:group]
-#    owner deploy[:user]
-#    mode 0770
-#    action :create
-#    recursive true
-#  end
+  directory virtualenv_path do
+    group deploy[:group]
+    owner deploy[:user]
+    mode 0770
+    action :create
+    recursive true
+  end
 
 #  virtualenv_path = ::File.join(deploy[:deploy_to], "shared", "env")
   python_virtualenv "#{application}-venv" do
