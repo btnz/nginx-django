@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "nginx::service"
+include_recipe "nginx::default"
 
 file "#{node[:nginx][:dir]}/sites-enabled/default" do
   action :delete
