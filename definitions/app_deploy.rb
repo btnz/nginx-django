@@ -6,7 +6,7 @@ define :app_configure do
   deploy = node[:deploy][application]
 
   if deploy[:deploy_to] && (node[:deploy][application]["initially_deployed"] || ::File.exist?(deploy[:deploy_to]))
-    django_settings = ::File.join(deploy[:deploy_to], 'current', application, 'settings.py')
+    django_settings = ::File.join(deploy[:deploy_to], 'current', 'settings.py')
     template django_settings do
       source "settings.py.erb"
       owner deploy[:user]
@@ -28,7 +28,7 @@ define :virtualenv_setup do
   deploy = node[:deploy][application]
 
   virtualenv_path = ::File.join(deploy[:deploy_to], "shared", "env")
-  requirements_file = ::File.join(deploy[:deploy_to], "current", "requirements.txt")
+  requirements_file = ::File.join(deploy[:deploy_to], "requirements.txt")
   if ::File.exists?(requirements_file)
     File.open(requirements_file) do | file_handle |
       file_handle.each_line do | line |
