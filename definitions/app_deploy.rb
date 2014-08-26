@@ -28,7 +28,7 @@ define :virtualenv_setup do
   deploy = node[:deploy][application]
 
   virtualenv_path = ::File.join(deploy[:deploy_to], "shared", "env")
-  requirements_file = ::File.join(deploy[:deploy_to], "requirements.txt")
+  requirements_file = ::File.join(deploy[:deploy_to], "current", "requirements.txt")
   if ::File.exists?(requirements_file)
     File.open(requirements_file) do | file_handle |
       file_handle.each_line do | line |
