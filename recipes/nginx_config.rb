@@ -13,16 +13,13 @@ package "nginx" do
   action :install
 end
 
+nginx_site 'default' do
+  enable false
+end
+
 service "nginx" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
-end
-
-file "#{node[:nginx][:dir]}/sites-enabled/default" do
-  action :delete
-  only_if do
-    File.exists?("#{node[:nginx][:dir]}/sites-enabled/default")
-  end
 end
 
 node[:deploy].each do | application, deploy|
