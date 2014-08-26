@@ -8,7 +8,7 @@ server {
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy_data[:domains].first %>.access.log;
 
   location /static/ {
-    alias   <%= @deploy_data[:deploy_to] %>/static/;
+    alias   <%= @deploy_data[:deploy_to] %>/www/static/;
   }
 
   location / {
