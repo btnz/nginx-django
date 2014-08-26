@@ -99,8 +99,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
   ),
   'DEFAULT_AUTHENTICATION_CLASSES': (
-      'rest_framework.authentication.BasicAuthentication',
-      'rest_framework.authentication.SessionAuthentication',
+      'rest_framework.authentication.OAuth2Authentication',
   )
 }
 
@@ -122,4 +121,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '<%=@deploy_to%>/current/<%=@application%>/static/www'
+STATIC_ROOT = '<%=@deploy_to%>/current/<%=@application%>/static/'
