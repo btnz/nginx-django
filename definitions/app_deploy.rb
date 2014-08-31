@@ -46,6 +46,17 @@ define :virtualenv_setup do
   end
 end
 
+define :collect_static do
+  deploy = params[:deploy_data]
+  application = params[:app]
+  virtualenv_path = params[:virtualenv_path]
+  
+  execute "#{::File.join(virtualenv_path, "bin", "python")} manage.py collectstatic --noinput" do
+    user deploy[:user]
+    group deploy[:group]
+    cwd ::File.join(deploy[:deploy_to], "current")
+  end
+    
 define :south_migration do
   deploy = params[:deploy_data]
   application = params[:app]
