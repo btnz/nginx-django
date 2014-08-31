@@ -10,6 +10,9 @@
 include_recipe 'deploy::default'
 
 node[:deploy].each do | application, deploy|
+  
+  virtualenv_path = ::File.join(deploy[:deploy_to], "shared", "env")
+  
   opsworks_deploy_dir do
     user deploy[:user]
     group deploy[:group]
@@ -30,5 +33,12 @@ node[:deploy].each do | application, deploy|
     deploy_data deploy
     app application
   end
+  
+  collect_static do
+    deploy_data deploy
+    app application
+    virtualenv virtualenv_path
+  end
+  
 end
 
