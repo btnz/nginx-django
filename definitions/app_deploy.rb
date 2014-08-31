@@ -49,7 +49,7 @@ end
 define :collect_static do
   deploy = params[:deploy_data]
   application = params[:app]
-  virtualenv_path = params[:virtualenv_path]
+  virtualenv_path = params[:virtualenv]
   
   execute "#{::File.join(virtualenv_path, "bin", "python")} manage.py collectstatic --noinput" do
     user deploy[:user]
