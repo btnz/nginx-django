@@ -56,6 +56,7 @@ define :collect_static do
     group deploy[:group]
     cwd ::File.join(deploy[:deploy_to], "current")
   end
+end
     
 define :south_migration do
   deploy = params[:deploy_data]
