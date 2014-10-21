@@ -20,7 +20,7 @@ define :virtualenv_configure do
   directory virtualenv_path do
     group deploy[:group]
     owner deploy[:user]
-    mode 0755
+    mode 0775
     action :create
     recursive true
   end
