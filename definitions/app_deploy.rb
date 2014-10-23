@@ -11,7 +11,7 @@ define :app_configure do
       source "settings.py.erb"
       owner deploy[:user]
       group deploy[:group]
-      mode 0640
+      mode 0660
       variables Hash.new
       variables.update deploy
       variables.update :django_database => node[:deploy][application]["database"] || node["deploy_django"]["database"]
