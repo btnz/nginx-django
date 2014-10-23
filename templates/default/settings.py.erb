@@ -124,6 +124,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-MEDIA_ROOT = '<%=deploy_to%>/media_root/'
+MEDIA_ROOT = '<%=@deploy_to%>/media_root/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '<%=@deploy_to%>/current/www/static/'
