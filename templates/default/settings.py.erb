@@ -21,6 +21,7 @@ SECRET_KEY = '<%=@django_settings["secret_key"]%>'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = <%= @django_settings["debug"] ? "True" : "False" %>
+ADMINS = (('Carl', 'c@rljones.co.uk'), ('Bevan', 'bevan@bevanthomson.net'))
 
 TEMPLATE_DEBUG = True
 
