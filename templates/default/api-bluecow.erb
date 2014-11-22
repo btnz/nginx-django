@@ -2,6 +2,11 @@ upstream <%= @application %> {
   server unix:<%= @deploy_data[:deploy_to]%>/gunicorn.sock fail_timeout=0;
 }
 
+log_format timed_combined '$remote_addr - $remote_user [$time_local]  '
+    '"$request" $status $body_bytes_sent '
+    '"$http_referer" "$http_user_agent" '
+    '$request_time $upstream_response_time $pipe';
+
 server {
   listen   80;
   server_name  <%= @deploy_data[:domains].join(" ") %> <%= node[:hostname] %>;
@@ -11,6 +16,11 @@ server {
     alias   <%= @deploy_data[:deploy_to] %>/current/www/static/;
   }
   
+  location /static/www/README.txt {
+    alias /srv/www/bluecowweb/current/www/static/www/README.txt;
+    access_log off;
+  }
+
   location /uploads/ {
     alias <%= @deploy_to[:deploy_to] %>/media_root/uploads/;
   }
