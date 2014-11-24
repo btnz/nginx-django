@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'provider',
     'provider.oauth2',
     'south',
+    'push_notifications'
     'rest_framework',
 )
 
@@ -73,6 +74,12 @@ DATABASES = {
         'PORT': '<%= @django_database["port"] %>',
     },
 }
+
+# django-push-notifications (needs South stuff until I switch to 1.7 native
+PUSH_NOTIFICATIONS_SETTINGS = {
+        "GCM_API_KEY": "<%=@django_settings["gcm_key"]%>",
+}
+SOUTH_MIGRATION_MODULES = {"push_notifications": "push_notifications.south_migrations
 
 EMAIL_HOST = "localhost"
 EMAIL_PORT = "25"
@@ -106,6 +113,79 @@ REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': (
       'rest_framework.authentication.OAuth2Authentication',
   )
+}
+
+if DEBUG or not os.path.exists('/dev/log'):
+    DEFAULT_LOG = 'console'
+else:
+    DEFAULT_LOG = 'syslog'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'syslog': {
+            'format': '<%=@application%>[%(process)d]: %(levelname)s %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'logfile': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'syslog': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.SysLogHandler',
+            'formatter': 'syslog',
+            #'address': '/dev/log',
+            'facility': SysLogHandler.LOG_LOCAL2,
+        },
+        # Logging to a file
+        # 'logfile': {
+        #     'level':'DEBUG',
+        #     'class':'logging.handlers.RotatingFileHandler',
+        #     'filename': "/var/log/weblate/weblate.log",
+        #     'maxBytes': 100000,
+        #     'backupCount': 3,
+        #     'formatter': 'logfile',
+        # },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins', DEFAULT_LOG],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'social': {
+            'handlers': [DEFAULT_LOG],
+            'level': 'DEBUG',
+        },
+        # Logging database queries
+        # 'django.db.backends': {
+        #     'handlers': [DEFAULT_LOG],
+        #     'level': 'DEBUG',
+        # },
+        'api': {
+            'handlers': [DEFAULT_LOG],
+            'level': 'DEBUG',
+        }
+    }
 }
 
 # Internationalization
