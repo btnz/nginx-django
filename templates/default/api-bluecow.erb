@@ -29,12 +29,12 @@ server {
   }
   
   location /static/www/README.txt {
-    alias /srv/www/bluecowweb/current/www/static/www/README.txt;
+    alias <%= @deploy_data[:deploy_to] %>/current/www/static/www/README.txt;
     access_log off;
   }
 
   location /uploads/ {
-    alias <%= @deploy_to[:deploy_to] %>/media_root/uploads/;
+    alias <%= @deploy_data[:deploy_to] %>/media_root/uploads/;
   }
 
   location / {
