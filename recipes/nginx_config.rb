@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-#include_recipe "nginx::default"
+include_recipe "nginx::default"
 
 package "nginx" do
   action :install
