@@ -33,7 +33,7 @@ node[:deploy].each do | application, deploy|
   end
   
   service "gunicorn_" + application do
-    action [:enable, :start ]
+    action [:enable ]
   end
 
 end
