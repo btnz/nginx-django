@@ -43,6 +43,8 @@ define :virtualenv_setup do
         end
       end
     end
+  else
+    Chef::Log.debug(requirements_file + " not found, skipping virtualenv")
   end
 end
 
