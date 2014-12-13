@@ -11,5 +11,6 @@ depends "ohai"
 depends "nginx"
 depends "python"
 depends "gunicorn"
+depends "postfix"
 
 recipe "deploy::app_deploy", "Deploy custom application"
