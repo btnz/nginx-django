@@ -19,7 +19,7 @@ start() {
   .  $APP_DIR/shared/env/bin/activate
   cd $APP_DIR/current/
 # Need to change app name for this stuff to work  $APP_DIR/shared/env/bin/gunicorn --pid $pidfile -u $RUN_AS -c $CONF --daemon <%=@app_name%>.wsgi:application
-  $APP_DIR/shared/env/bin/gunicorn --pid $pidfile -u $RUN_AS -g $RUN_GROUP -c $CONF --daemon <%=@application%>.wsgi:application
+  $APP_DIR/shared/env/bin/gunicorn --pid $pidfile -u $RUN_AS -g $RUN_GROUP -c $CONF --daemon <%=@app_name%>.wsgi:application
 }
 
 stop() {
