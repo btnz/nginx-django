@@ -33,7 +33,7 @@ server {
     access_log off;
   }
 
-  location /uploads/ {
+  location /media/uploads/ {
     alias <%= @deploy_data[:deploy_to] %>/media_root/uploads/;
   }
 
