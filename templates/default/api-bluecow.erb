@@ -22,7 +22,7 @@ server {
 server {
   listen   80;
   server_name  <%= @deploy_data[:domains].join(" ") %> <%= node[:hostname] %>;
-  access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy_data[:domains].first %>.access.log;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy_data[:domains].first %>.access.log timed_combined;
 
   location /static/ {
     alias   <%= @deploy_data[:deploy_to] %>/current/www/static/;
